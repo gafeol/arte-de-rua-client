@@ -1,9 +1,8 @@
 import logo from './logo.svg';
 import './App.css';
-import { useEffect } from 'react';
 import { ApolloClient, ApolloProvider, InMemoryCache, gql, useQuery } from '@apollo/client';
 
-const apiHost = `http://localhost:8000`
+const apiHost = (process.env.NODE_ENV === "development" ? `https://arte-de-rua-api.herokuapp.com` : `http://localhost:8000`);
 
 const client = new ApolloClient({
     uri: apiHost+"/graphql",
@@ -31,19 +30,6 @@ function Arts() {
 }
 
 function App() {
-/*    useEffect(() => {
-        fetch(apiHost + '/graphql', 
-            {
-                method: "POST",
-                mode: "cors"
-            })
-        .then(res => {
-            console.log(res);
-        })
-        .catch(err => {
-            console.log(err);
-        })
-    })*/
   return (
       <ApolloProvider client={client}>
         <div className="App">
