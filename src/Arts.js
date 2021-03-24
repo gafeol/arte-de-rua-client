@@ -40,7 +40,7 @@ function Arts() {
                 <CircularProgress className={classes.title}/> :
                 <div className={classes.gallery}>
                     {data.arts.map(art => (
-                        <Art key={art.id} phrase={art.phrase} imgURL={art.imgURL} artistName={art.artist.name} /> ))}
+                        <Art key={art.id} id={art.id} phrase={art.phrase} imgURL={art.imgURL} artistName={art.artist.name} /> ))}
                 </div>
             }
         </div>

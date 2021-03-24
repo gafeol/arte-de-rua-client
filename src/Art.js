@@ -4,6 +4,9 @@ import Typography from '@material-ui/core/Typography';
 import CardActionArea from '@material-ui/core/CardActionArea';
 import CardMedia from '@material-ui/core/CardMedia';
 import CardContent from '@material-ui/core/CardContent';
+import CircularProgress from '@material-ui/core/CircularProgress';
+import { gql, useQuery } from '@apollo/client';
+import { useParams, Link } from "react-router-dom";
 
 const useStyles = makeStyles({
   root: {
@@ -14,9 +17,10 @@ const useStyles = makeStyles({
   },
 });
 
-function Art({phrase, imgURL, artistName}) {
+function Art({id, phrase, imgURL, artistName}) {
     const classes = useStyles();
     return (<Card className={classes.root}>
+        <Link to={`/art/${id}`}>
         <CardActionArea>
             <CardMedia
                 className={classes.media}
@@ -32,7 +36,30 @@ function Art({phrase, imgURL, artistName}) {
                 </Typography>
             </CardContent>
         </CardActionArea>
+        </Link>
     </Card>)
 }
 
+
+const GET_ART_ID = gql`
+    query Art($id: ID!) {
+        art(id: $id) {
+            id
+            phrase
+            imgURL
+        }
+    }
+    `;
+
+function ArtID() {
+    let { id } = useParams();
+    const { loading, data, error } = useQuery(GET_ART_ID, {variables: {id}});
+    if(error)
+        return  error.message;
+    return loading ? 
+        <CircularProgress /> :
+        <Art key={data.art.id} id={data.art.id} phrase={data.art.phrase} imgURL={data.art.imgURL} />
+}
+
 export default Art;
+export { ArtID };
