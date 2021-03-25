@@ -1,16 +1,9 @@
-import { gql, useQuery } from '@apollo/client';
+import { useQuery } from '@apollo/client';
 import makeStyles from '@material-ui/core/styles/makeStyles';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Typography from '@material-ui/core/Typography';
-import Artist from './Artist';
-
-const GET_ARTISTS = gql`
-    query GetArtists {
-        artists {
-            id
-            name
-        }
-    }`;
+import Art from './Art';
+import { GET_ARTS } from '../graphql';
 
 const useStyles = makeStyles({
     title: {
@@ -23,24 +16,25 @@ const useStyles = makeStyles({
     }
 });
 
-function Artists() {
+function Arts() {
     const classes = useStyles();
-    const { loading, error, data } = useQuery(GET_ARTISTS);
+    const { loading, error, data } = useQuery(GET_ARTS);
     if(error) return error.message
     return (
         <div>
             <Typography variant="h1" className={classes.title}>
-                Artistas
+                Obras de arte
             </Typography>
             {loading ? 
                 <CircularProgress className={classes.title}/> :
                 <div className={classes.gallery}>
-                    {data.artists.map(artist => (
-                        <Artist key={artist.id} name={artist.name}/> ))}
+                    {data.arts.map(art => (
+                        <Art key={art.id} id={art.id} phrase={art.phrase} imgURL={art.imgURL} artistName={art.artist.name} /> ))}
                 </div>
             }
+            
         </div>
     )
 }
 
-export default Artists;
+export default Arts;

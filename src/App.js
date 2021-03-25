@@ -1,8 +1,5 @@
-import './App.css';
 import { ApolloClient, ApolloProvider, InMemoryCache } from '@apollo/client';
-import { ArtID } from './Art';
-import Arts from './Arts';
-import Artists from './Artists';
+import { ArtForm, Arts, ArtID, Artists } from './components';
 import {
   BrowserRouter as Router,
   Switch,
@@ -23,6 +20,9 @@ function App() {
       <ApolloProvider client={client}>
         <Router>
           <Switch>
+              <Route path="/art/form">
+                  <ArtForm/>
+              </Route>
               <Route path="/art/:id">
                     <ArtID/>
               </Route>
